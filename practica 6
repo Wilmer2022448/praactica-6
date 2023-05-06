@@ -1,0 +1,79 @@
+#include <LiquidCrystal_I2C.h> 
+#include <Wire.h> 
+#include "RTClib.h"
+#include <LiquidCrystal_I2C.h>
+#define rele 2
+
+LiquidCrystal_I2C lcd(0x20,16,2);
+RTC_DS1307 RTC;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+ lcd.setCursor(0,0);
+  lcd.print("Bomba "); 
+  lcd.setCursor (0,1);
+  lcd.print("activa");
+  pinMode(rele, OUTPUT);
+
+
+Wire.begin(); // Iniciar I2C
+RTC.begin(); // Inicia  RTC
+Serial.begin(9600);
+lcd.begin(16,2);  
+}
+
+void loop() { 
+
+  lcd.display();
+  delay(500);
+  lcd.noDisplay();
+  delay(500);
+
+digitalWrite (rele,LOW);
+delay(5000);
+digitalWrite (rele, HIGH);
+delay(5000);
+
+
+
+
+DateTime now = RTC.now();
+   
+Serial.print(now.year(), DEC); // Año
+Serial.print('/');
+Serial.print(now.month(), DEC); // Mes
+Serial.print('/');
+Serial.print(now.day(), DEC); // Dia
+Serial.print(' ');
+Serial.print(now.hour(), DEC); // Horas
+Serial.print(':');
+
+Serial.print(now.minute(), DEC); // Minutos
+Serial.print(':');
+Serial.print(now.second(), DEC); // Segundos
+Serial.println();
+lcd.setCursor(0,0);
+lcd.print("fecha: ");
+lcd.print(now.year(), DEC);
+lcd.print("/");
+lcd.print(now.month(), DEC);
+lcd.print("/");
+lcd.print(now.day(), DEC);
+lcd.print("   ");
+lcd.setCursor(0,1);
+lcd.print("Tiempo: ");
+lcd.print(now.hour(), DEC);
+lcd.print(":");
+lcd.print(now.minute(), DEC);
+lcd.print(":");
+lcd.print(now.second(), DEC);
+delay(1000); 
+int Leer  = (12:30:10);
+if (Leer == 12:30:10)
+{digitalWrite (rele,HIGH);
+delay 500;}
+
+
+}
